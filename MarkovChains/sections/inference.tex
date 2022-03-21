@@ -1,0 +1,142 @@
+\documentclass[class=article, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+\usepackage{subcaption}
+\usepackage{../mltheory}
+\usepackage{amsfonts}
+\usepackage{xr}
+
+\externaldocument{maximum_likelihood}
+
+
+\begin{document}
+
+\begin{figure}[t]
+    \centering
+    \import{./}{figures/graphhmm}
+    \caption{Graphical representation of an Hidden Markov Model.}
+    \label{fig:graph_hmm}
+\end{figure}
+
+Let be $\Matrix{s} = s_1, \dots, s_N$ a sequence of hidden states and
+and $\Matrix{X} = \Matrix{x}_1, \dots, \Matrix{x}_N$ a sequence of
+observations. Each state index is assigned an probability density
+function (p.d.f.) index; $z_n$ represent the p.d.f. index for $s_n$.
+We write $z[i]$ the p.d.f. index of the state $i$ and $S(k)$ the set
+of states assigned to the p.d.f. index $k$.  We are interested in the
+following calculation:
+\begin{itemize}
+    \item{
+        $p(z_n = k | \Matrix{X})$: the probability to assign the $n$th
+        frame to the pdf index $k$
+    }
+    \item {
+        $\Matrix{s}^* = \argmax_{\Matrix{s}} p(\Matrix{s} | \Matrix{X})$:
+        the most likely sequence of states given the observations
+    }
+\end{itemize}
+
+\subsection{State posterior}
+
+The state posterior is given by the following formula:
+\begin{align}
+    p(z_n = k | \Matrix{X}) &= \sum_{j=1}^S \Indicator[i \in S(k)] \frac{\alpha_n(i) \beta_n(i)}
+        {p(\Matrix{X})} \label{eq:statepost},
+\end{align}
+where $\alpha_n(\cdot)$ and $\beta_n(\cdot)$ are recursive functions
+defined as:
+\begin{align}
+    \alpha_n(i) &= p(\Matrix{x}_n| z_n = z[i]) \sum_j
+        p(s_n = i | s_{n-1} = j) \alpha_{n-1}(j) \label{eq:forward}\\
+    \beta(i) &= \sum_j p(\Matrix{x}_{n+1} | z_{n+1} = z[j])
+        p(s_{n+1} = j | s_{n-1} = i) \beta_{n+1}(j) \label{eq:backward}.
+\end{align}
+Calculation of the $\alpha$ and $\beta$ is known as the
+forward-backward algorithm.
+
+\subsection{Matrix notation}
+\eqref{eq:forward} and \eqref{eq:backward} can be conveniently
+written with a matrix notation:
+\begin{align}
+    \Matrix{\alpha}_n &= (\Matrix{C} \Matrix{v}_n) \circ
+        (\Matrix{T}^\top \Matrix{\alpha}_{n-1}) \\
+    \Matrix{\beta}_n &= \Matrix{T} \big[ \Matrix{\beta}_{n+1} \circ
+        (\Matrix{C} \Matrix{v}_{n+1}) \big] \\
+    \Matrix{\gamma}_n &= \Matrix{C}^\top (\Matrix{\alpha}_n \circ \Matrix{\beta}_n)
+        \frac{1}{\sum_{k=1}^K \big[ \Matrix{C}^\top (\Matrix{\alpha}_{n} \circ
+        \Matrix{\beta}_n) \big]_k},
+\end{align}
+where $\circ$ is the Hadamard product and we have defined:
+\begin{align}
+    \Matrix{C} &= \begin{bmatrix}
+        \Indicator[z[1] = 1] & \dots & \Indicator[z[1] = K] \\
+        \vdots & \ddots & \vdots \\
+        \Indicator[z[S] = 1] & \dots & \Indicator[z[S] = K]
+    \end{bmatrix} \\
+    \Matrix{T} &= \begin{bmatrix}
+        p(s_n = 1 | s_{n-1} = 1) & \dots & p(s_n = S | s_{n-1} = 1) \\
+        \vdots & \ddots & \vdots \\
+        p(s_n = 1 | s_{n-1} = S) & \dots & p(s_n = S | s_{n-1} = S)
+    \end{bmatrix} \\
+    \Matrix{v}_n &= \begin{bmatrix}
+        p(\Matrix{x}_n | z_n = 1) \\
+        \vdots \\
+        p(\Matrix{x}_n | z_n = K)
+    \end{bmatrix} \\
+    \Matrix{\alpha}_n &= \begin{bmatrix}
+        \alpha_n(1) \\
+        \vdots \\
+        \alpha_n(S)
+    \end{bmatrix} \\
+    \Matrix{\beta}_n &= \begin{bmatrix}
+        \beta_n(1) \\
+        \vdots \\
+        \beta_n(S)
+    \end{bmatrix} \\
+    \Matrix{\gamma} &= \begin{bmatrix}
+        p(z_n = 1 | \Matrix{X}) \\
+        \vdots \\
+        p(z_n = K | \Matrix{X})
+    \end{bmatrix}.
+\end{align}
+
+\subsection{Forward-backward with multiple sequences}
+It is often convenient to calculate the forward-backward algorithm on
+multiple sequence at once for optimization purposes.
+We consider that we have $B$ sequences having the same length $N$, the
+same number of emission distributions $K$ but different number of
+states: $S^1, \dots, S^B$. Consequently, we have sequence specific
+transition and mapping matrices: $\Matrix{T}^b$ and $\Matrix{C}^b$.
+
+We can compute the forward and backward recursion for all sequences
+in one pase with:
+\begin{align}
+    \Matrix{\alpha}' &= (\Matrix{C}' \Matrix{v}_n) \circ
+        (\Matrix{T}' \Matrix{\alpha}'_{n-1}) \\
+    \Matrix{\beta}'_n &= \Matrix{T}' \big[ \Matrix{\beta}'_{n+1} \circ
+        (\Matrix{C}' \Matrix{v}_{n+1}) \big] \\
+    \Matrix{\gamma}' &\propto \Matrix{C}'^\top (\Matrix{\alpha}'_n \circ
+        \Matrix{\beta}'_n) \label{eq:unnorm_batched_gamma},
+\end{align}
+where we have defined:
+\begin{align}
+    \Matrix{C}' &= \begin{bmatrix}
+        \Matrix{C}^1 & \Matrix{0} & \dots \\
+        \Matrix{0} & \Matrix{C}^2 & \dots \\
+        \vdots & & \ddots & \\
+               & &  & \Matrix{C}^B
+    \end{bmatrix} \\
+    \Matrix{T}' &= \begin{bmatrix}
+        \Matrix{T}^1 & \Matrix{0} & \dots \\
+        \Matrix{0} & \Matrix{T}^2 & \dots \\
+        \vdots & & \ddots & \\
+               & &  & \Matrix{T}^B
+    \end{bmatrix}.
+\end{align}
+\eqref{eq:unnorm_batched_gamma} can be easily re-normalized for each
+sequence of the mini-batch as it is a vector of length $BK$\footnote{
+Concretely, the vector is divided in $B$ sub-vectors of size $K$ and
+each vector is re-normalized individually.}
+
+\end{document}
+

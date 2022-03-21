@@ -1,0 +1,13 @@
+digraph G {
+    rankdir=LR;
+    a -> a [label=" ", texlbl="$t_{11}$"];
+    a -> b [label=" ", texlbl="$t_{12}$"];
+    a -> c [label=" ", texlbl="$t_{13}$"];
+    b -> a [label=" ", texlbl="$t_{21}$"];
+    b -> b [label=" ", texlbl="$t_{22}$"];
+    b -> c [label=" ", texlbl="$t_{23}$"];
+    c -> a [label=" ", texlbl="$t_{31}$"];
+    c -> b [label=" ", texlbl="$t_{32}$"];
+    c -> c [label=" ", texlbl="$t_{33}$"];
+}
+

@@ -1,0 +1,4 @@
+digraph g {
+rankdir=LR;
+a -> b [label=s1];
+}

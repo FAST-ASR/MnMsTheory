@@ -1,0 +1,65 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{theory_markov_chains}[2016/10/04 Custom Package]
+
+% Pre-included packages
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{amsbsy}
+\RequirePackage{amsfonts}
+\RequirePackage{bbm}
+\RequirePackage{xcolor}
+
+
+% Options processing
+% ...
+\ProcessOptions\relax % terminates the option processing
+
+%% Definitions
+
+%% TODO notes.
+\newcommand\Todo[1]{ \textcolor{red}{[ #1 ]}}
+
+%% Statistical independence symbol
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%% Matrix/vector notation
+\newcommand{\Matrix}[1]{\boldsymbol{\mathbf{#1}}}
+
+%% Common density functions
+\newcommand{\Bernoulli}{\text{Bern}}
+\newcommand{\Binomial}{\text{Bin}}
+\newcommand{\Categorical}{\text{Cat}}
+\newcommand{\Beta}{\mathcal{B}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\Wishart}{\mathcal{W}}
+\newcommand{\Gam}{\mathcal{G}}
+\newcommand{\Dirichlet}{\mathcal{D}}
+\newcommand{\DirichletP}{\mathcal{DP}}
+\newcommand{\Multinomial}{\mathcal{M}}
+
+%% Derivative symbol in integrals
+\newcommand{\wrt}[1]{\mathrm{d}{#1}}
+
+%% Common operators
+\DeclareMathOperator{\Tr}{tr}                   % Matrix trace
+\DeclareMathOperator{\Exp}{E}                   % Expectation
+\DeclareMathOperator{\Vectorize}{vec}           % Matrix vectorization
+\DeclareMathOperator{\Matricize}{mat}           % Inverse matrix vectorization
+\DeclareMathOperator{\Indicator}{\mathbbm{1}}   % Inidcator
+\DeclareMathOperator*{\argmax}{arg\,max}        % Argmax
+\DeclareMathOperator*{\argmin}{arg\,min}        % Argmin
+\DeclareMathOperator*{\Diag}{diag}              % Matrix diagonal
+\DeclareMathOperator*{\Smax}{softmax}           % Softmax function
+
+%% Miscellaneous
+\DeclareMathOperator{\const}{const}             % Constant symbol
+\DeclareMathOperator{\KL}{D_{KL}}               % KL divergence
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+

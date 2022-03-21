@@ -1,0 +1,12 @@
+digraph abc {
+rankdir=LR;
+a -> a [label=s1]
+a -> b [label=s2]
+a -> c [label=s3]
+b -> a [label=s4]
+b -> b [label=s5]
+b -> c [label=s6]
+c -> a [label=s7]
+c -> b [label=s8]
+c -> c [label=s9]
+}

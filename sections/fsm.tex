@@ -1,0 +1,44 @@
+\section{Weighted Finite State Machine}
+
+\section{Semiring}
+
+A semiring $K = (\mathbb{K}, +_K, \times_K, 0_K, 1_K)$ is a set $\mathbb{K}$
+equipped with a commutative binary operation $+_K$ (called ``addition'')
+with identity element $0_K$ and an associative binary operation $\times_K$
+(called ``multiplication'') with identity element $1_K$ that distributes
+over $+$.
+
+Here are commonly used semirings:
+
+\begin{table}[h]
+    \begin{tabular}{cccccc}
+        \toprule
+        name & $\mathbb{K}$ & $x +_K y$ & $x \times_K y $ & $0_K$ & $1_K$ \\
+        log-semiring & $\mathbb{R}$ & $ \ln(e^x + e^y) $ & $x + y$ & $-\infty$ & $0$ \\
+        tropical-semiring & $\mathbb{R}$ & $ $max(x, y)$ $ & $x + y$ & $-\infty$ & $0$ \\
+        concat-semiring & sets of strings & alternation & concatenation & $\{\}$ & $\{\text{``''}\}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Finite State Machine}
+
+We define a Finite State Machine (FSM) $\mathcal{M}$ by the tuple
+$\mathcal{M} = (Q, \Sigma, K, L, \boldsymbol{\alpha},~\mathbf{T},~\boldsymbol{\omega}, \boldsymbol{\lambda})$
+where:
+\begin{itemize}
+    \item $Q = \{1, \dots, d\}$ is the set of states (with cardinality $d$)
+        identified as integers
+    \item $\Sigma$ is the set of symbols
+    \item $K$ is FSM's weights semiring
+    \item $L$ is the FSM's labels semiring defined over a subset of $\Sigma^*$
+    \item $\boldsymbol{\alpha} \in K^d$ is a vector such that $\alpha_i$
+    is the initial weight of the state $i \in Q$
+    \item $\mathbf{T} \in K^{d\times d}$ is a matrix such that $T_{ij}$
+        is the transition weight from the state $i \in Q$ to the state $j \in Q$
+    \item $\boldsymbol{\omega} \in K^d$ is a vector such that $\omega_i$
+        is the final weight of the state $i \in Q$
+    \item $\boldsymbol{\lambda} \in L^d$ is a vector of symbol such that
+        $\lambda_i$ is the symbol of the state $i \in Q$
+\end{itemize}
+

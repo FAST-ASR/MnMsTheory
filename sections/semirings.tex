@@ -1,0 +1,38 @@
+\section{Semiring}
+
+A semiring $K = (\mathbb{K}, +_K, \times_K, 0_K, 1_K)$ is a set $\mathbb{K}$
+equipped with a commutative binary operation $+_K$ (called ``addition'')
+with identity element $0_K$ and an associative binary operation $\times_K$
+(called ``multiplication'') with identity element $1_K$ that distributes
+over $+$.
+
+Here are commonly used semirings:
+
+\begin{table}[h]
+    \begin{tabular}{lcccccc}
+        \toprule
+        Semiring name & $\mathbb{K}$ & $x +_K y$ & $x \times_K y $ & $ x /_K y$ & $0_K$ & $1_K$ \\
+        \midrule
+        Boolean & $\{\text{true}, \text{false}\}$ & $x \lor y$ & $x \land y$ &  & $\text{false}$ & $\text{true}$ \\
+        Log & $\mathbb{R}$ & $ \ln(e^x + e^y) $ & $x + y$ & $x - y$ & $-\infty$ & $0$ \\
+        Probability & $\mathbb{R}^+$ & $x + y$ & $x \cdot y$ & $x /y$ & $0$ & $1$ \\
+        Tropical & $\mathbb{R}$ & $ $max(x, y)$ $ & $x + y$ & $x - y$ & $-\infty$ & $0$ \\
+        Union-Concatenation & $\{S : S \subseteq \Sigma^* \}$ & $x \cup y$ & $\{ ab : a \in x, b \in y \}$ & & $\{\}$ & $\{\epsilon\}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Here are the main properties of the semirings:
+\begin{table}[h]
+    \begin{tabular}{lllll}
+        \toprule
+        Semiring name & idempotent & zero-sum free & divisible & ordered  \\
+        \midrule
+        Boolean & \checkmark & \checkmark & & \\
+        Log & & \checkmark & \checkmark & \checkmark \\
+        Probability & & \checkmark & \checkmark & \checkmark \\
+        Tropical & \checkmark & \checkmark & \checkmark & \checkmark \\
+        Union-Concatenation & \checkmark & \checkmark & & \\
+        \bottomrule
+    \end{tabular}
+\end{table}

@@ -83,7 +83,7 @@ can be obtained with the following construction:
         0 \boldsymbol{\alpha}_2
     \end{bmatrix} \\
     \mathbf{T}_3 &= \begin{bmatrix}
-        \mathbf{T}_1 & \\
+        \mathbf{T}_1 & \boldsymbol{\omega}_1 \boldsymbol{\alpha}_2^\top \\
         & \mathbf{T}_2
     \end{bmatrix} &
     \boldsymbol{\omega}_3 &= \begin{bmatrix}
@@ -128,25 +128,38 @@ FSM $\mathcal{M}^i$. The composition of $\mathcal{M}_1$ and $\mathcal{M}^{1:d}$,
 denoted $\mathcal{M}_1 \circ \mathcal{M}^{1:d}$, yields a FSM $\mathcal{M}_2$
 which can be obtained with the following construction:
 \begin{align}
-    Q_2 &= \{1, \dots, \sum_{i=1}^d |Q^i| \} & \Sigma_2 & = \Sigma_1 \cup \Sigma^1 \cup \dots \cup \Sigma^d \\
-    K_2 &= K_1 = K^1 = \dots = K^d & L_2 &= L_1 = L^1 = \dots = L^d \\
-    \boldsymbol{\alpha}_2 &= \begin{bmatrix}
-        \alpha_{1,1} \boldsymbol{\alpha}^1 \\
-        \vdots \\
-        \alpha_{1,2} \boldsymbol{\alpha}^d \\
-    \end{bmatrix} &
-        \mathbf{T}_2 &= (\mathbf{M}_K^\top \mathbf{T}_1 \mathbf{M}_K) \odot
-            (\boldsymbol{\omega}_1 \boldsymbol{\alpha}_1^\top) \\
-    \boldsymbol{\omega}_2 &= \begin{bmatrix}
-        \omega_{1,1} \boldsymbol{\omega}^1\\
-        \vdots \\
-        \omega_{1,d} \boldsymbol{\omega}^d
-    \end{bmatrix} &
-        \boldsymbol{\lambda}_2 &= \mathbf{M}_L^\top \begin{bmatrix}
-            \lambda_{1,1} \boldsymbol{\lambda}^1 \\
+    Q_2 &= \{1, \dots, \sum_{i=1}^d |Q^i| \} \\
+    \boldsymbol{\alpha}_2 &=
+        \begin{bmatrix}
+            \alpha_{1,1} \boldsymbol{\alpha}^1 \\
             \vdots \\
-            \lambda_{1,d} \boldsymbol{\lambda}^d \\
-        \end{bmatrix},
+            \alpha_{1,d} \boldsymbol{\alpha}^d
+        \end{bmatrix} \\
+    \mathbf{T}_2 &= \begin{bmatrix}
+        \mathbf{T}^1 & & \\
+        & \ddots & \\
+        & & \mathbf{T}^d
+    \end{bmatrix} + (\mathbf{M}_K \mathbf{T}_1 \mathbf{M}_K^\top) \odot
+        \Bigg( \begin{bmatrix}
+            \boldsymbol{\omega}_1 \\
+            \vdots \\
+            \boldsymbol{\omega}_d
+        \end{bmatrix} \begin{bmatrix}
+            \boldsymbol{\alpha}_1\\
+            \vdots \\
+            \boldsymbol{\alpha}_1
+        \end{bmatrix}^\top \Bigg)  \\
+    \boldsymbol{\omega}_2 &= \
+        \begin{bmatrix}
+            \omega_{1,1} \boldsymbol{\omega}^1 \\
+            \vdots \\
+            \omega_{1,d} \boldsymbol{\omega}^d
+        \end{bmatrix} \\
+    \boldsymbol{\lambda}_2 &= \mathbf{M}_L^\top \begin{bmatrix}
+        \lambda_{1,1} \circ \boldsymbol{\lambda}^1 \\
+        \vdots \\
+        \lambda_{1,d} \circ \boldsymbol{\lambda}^d \\
+    \end{bmatrix},
 \end{align}
 $\mathbf{M}_K$ is a matrix whose elements belong to the semiring $K$
 and it is defined as:
@@ -160,4 +173,14 @@ and it is defined as:
 \end{align}
 where $\mathbf{1}_{|Q_i|}$ is a vector of $1$ of size $|Q_i|$. $\mathbf{M}_L$
 is defined identically but has elements in the semiring $L$.
+
+\subsection{Determinization}
+
+\begin{align}
+    \mathbf{s}_n &= \mathbf{T}_L^\top \mathbf{s}_{n-1}
+\end{align}
+where
+\begin{align}
+    \mathbf{s}_1 &= 1_L[\boldsymbol{\alpha}_1]
+\end{align}
 

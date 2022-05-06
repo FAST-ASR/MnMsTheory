@@ -37,7 +37,7 @@ given by the function $\mu: Q^n \rightarrow K$:
         \prod_{i=2}^{n-1} T_{\pi_{i-1},\pi_i} \Big] \omega_{\pi_N}.
 \end{align}
 Similarly, the label sequence of the path $\boldsymbol{\pi}$ is given
-by the function $\sigma: Q^n \rightarrow L^n$:
+by the function $\sigma: Q^n \rightarrow L$:
 \begin{align}
     \sigma(\boldsymbol{\pi}) = \prod_{n=1}^N \lambda_{\pi_n}.
 \end{align}
@@ -48,7 +48,7 @@ a FSM as a sequence of labels:
     \mathbf{s} = \prod_{i=1}^n s_i, \quad s_i \in L.
 \end{align}
 The weight of an input sequence is given by the function
-$\nu: L^n \rightarrow K$:
+$\nu: L \rightarrow K$:
 \begin{align}
     \nu(\mathbf{s}) = \sum_{ \mathbf{x} \in P} \mu(\mathbf{x}),
 \end{align}
@@ -59,5 +59,24 @@ We say that an input sequence is \emph{accepted by $\mathcal{M}$} if
 $\nu(\mathbf{s}) > 0$. We denote $S$ the set of accepted input sequence
 of a FSM, i.e. $S = \{\mathbf{s} : \nu(\mathbf{s}) > 0 \}$.
 
-
+\paragraph{total sum:} We define the total sum of a FSM $\eta$ as the
+sum of all the weights of its accepted input sequence:
+\begin{align}
+    \zeta = \sum_{\mathbf{s} \in S} \nu(\mathbf{s}).
+\end{align}
+The total sum can be estimated efficiently via dynamic programming. Let
+be $\zeta_n$ the \emph{partial total sum} of a FSM $\mathcal{M}$
+defined as the sum of all the weights of accepted input sequence of
+size smaller of equal to $n$:
+\begin{align}
+    \zeta_n = \sum_{\mathbf{s} \in
+        \{ \mathbf{s} : \; | \mathbf{s} | \le n, \; \mathbf{s} \in S \}}
+        \nu(\mathbf{s}).
+\end{align}
+$\zeta_n$ can be calculated through the following recursion:
+\begin{align}
+    \mathbf{v}_n &= \mathbf{T}^\top \mathbf{v}_{n-1} \\
+    \zeta_n &= \boldsymbol{\omega}^\top \mathbf{v}_n,
+\end{align}
+where the recursion is initialized with $\mathbf{v}_1 = \boldsymbol{\alpha}$
 

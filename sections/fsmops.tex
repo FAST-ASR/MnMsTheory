@@ -139,40 +139,36 @@ which can be obtained with the following construction:
         \mathbf{T}^1 & & \\
         & \ddots & \\
         & & \mathbf{T}^d
-    \end{bmatrix} + (\mathbf{M}_K \mathbf{T}_1 \mathbf{M}_K^\top) \odot
-        \Bigg( \begin{bmatrix}
-            \boldsymbol{\omega}_1 \\
-            \vdots \\
-            \boldsymbol{\omega}_d
-        \end{bmatrix} \begin{bmatrix}
-            \boldsymbol{\alpha}_1\\
-            \vdots \\
-            \boldsymbol{\alpha}_1
-        \end{bmatrix}^\top \Bigg)  \\
-    \boldsymbol{\omega}_2 &= \
+    \end{bmatrix} +
+        \boldsymbol{\Omega} \mathbf{T}_1 \boldsymbol{\mathcal{A}}^\top \\
+    \boldsymbol{\omega}_2 &=
         \begin{bmatrix}
             \omega_{1,1} \boldsymbol{\omega}^1 \\
             \vdots \\
             \omega_{1,d} \boldsymbol{\omega}^d
         \end{bmatrix} \\
-    \boldsymbol{\lambda}_2 &= \mathbf{M}_L^\top \begin{bmatrix}
-        \lambda_{1,1} \circ \boldsymbol{\lambda}^1 \\
+    \boldsymbol{\lambda}_2 &= \begin{bmatrix}
+        \lambda_{1,1} \boldsymbol{\lambda}^1 \\
         \vdots \\
-        \lambda_{1,d} \circ \boldsymbol{\lambda}^d \\
+        \lambda_{1,d} \boldsymbol{\lambda}^d \\
     \end{bmatrix},
 \end{align}
-$\mathbf{M}_K$ is a matrix whose elements belong to the semiring $K$
-and it is defined as:
+where, $N(\cdot)$ is a function returning the non-zero elements of a matrix
+as a vector (ordered column-wise) and $\boldsymbol{\mathcal{A}}$,
+$\boldsymbol{\Omega}$ and $\boldsymbol{\Lambda}$ are block-diagonal
+matrices defined as
 \begin{align}
-    \mathbf{M}_K = \begin{bmatrix}
-        \mathbf{1}_{|Q_1|} & & & \\
-        & \mathbf{1}_{|Q_2|} & & \\
-        & & \ddots & \\
-        & & & \mathbf{1}_{|Q_d|}
-    \end{bmatrix}.
+    \boldsymbol{\mathcal{A}} &= \begin{bmatrix}
+        \boldsymbol{\alpha}^1 & & \\
+            & \ddots & \\
+            & & \boldsymbol{\alpha}^d
+        \end{bmatrix}, &
+    \boldsymbol{\Omega} &= \begin{bmatrix}
+        \boldsymbol{\omega}^1 & & \\
+            & \ddots & \\
+            & & \boldsymbol{\omega}^d
+        \end{bmatrix}.
 \end{align}
-where $\mathbf{1}_{|Q_i|}$ is a vector of $1$ of size $|Q_i|$. $\mathbf{M}_L$
-is defined identically but has elements in the semiring $L$.
 
 \subsection{Determinization}
 

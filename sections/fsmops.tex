@@ -170,13 +170,13 @@ matrices defined as
         \end{bmatrix}.
 \end{align}
 
+\subsection{Weight propagation}
+
+Propagate the weight towards through the FSM. This operation is needed
+before determinization to guarantee that the output FSM will be
+equivalent to the input one.
+
 \subsection{Determinization}
 
-\begin{align}
-    \mathbf{s}_n &= \mathbf{T}_L^\top \mathbf{s}_{n-1}
-\end{align}
-where
-\begin{align}
-    \mathbf{s}_1 &= 1_L[\boldsymbol{\alpha}_1]
-\end{align}
+Standard algorithm of powerset construction.
 

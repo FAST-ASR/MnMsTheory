@@ -23,8 +23,10 @@ where:
     \item $\boldsymbol{\omega} \in K^d$ is a vector such that $\omega_i$
         is the final weight of the state~$i~\in~Q$
     \item $\boldsymbol{\lambda} \in L^d$ is a vector of symbol such that
-        $\lambda_i$ is the symbol of the state~$i~\in~Q$
+        $\lambda_i$ is the symbol of the state~$i~\in~Q$.
 \end{itemize}
+An example of FSM with its graphical and matrix representation is
+shown in Figure \ref{fsm:fig:example1}.
 
 \paragraph{initial and final states:} We say that a state $i$ is an
 \emph{initial state} if its initial weight is greater than $0$,
@@ -48,9 +50,6 @@ by the function $\sigma: Q^n \rightarrow L$:
 \begin{align}
     \sigma(\boldsymbol{\pi}) = \prod_{i=1}^n \lambda_{\pi_i}.
 \end{align}
-
-An example of FSM with its graphical and matrix representation is
-shown in Figure \ref{fsm:fig:example1}.
 
 \begin{figure}[t]
     \centering

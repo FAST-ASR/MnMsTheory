@@ -1,6 +1,13 @@
-\section{Weighted Finite State Machine}
+\section{Finite State Machines}
 
-We define a Finite State Machine (FSM) $\mathcal{M}$ by the tuple
+We provide here a formal definition of (weighted) Finite State Machines
+(FSMs). This definition slightly differs from the traditional formalism
+of finite automata. These changes are introduced in order to present
+simple and yet powerful framework for structured inference.
+
+\subsection{Definitions}
+
+We define a FSM $\mathcal{M}$ by the tuple
 $\mathcal{M} = (Q, \Sigma, K, L, \boldsymbol{\alpha},~\mathbf{T},~\boldsymbol{\omega}, \boldsymbol{\lambda})$
 where:
 \begin{itemize}
@@ -8,8 +15,8 @@ where:
         identified as integers
     \item $\Sigma$ is a set of symbols
     \item $K$ is an zero-sum free and ordered semiring for the FSM's weights
-    \item $L$ is an union-concatenation semiring defined over $\{ S : S \subseteq \Sigma^* \}$ for the FSM's labels
-    \item $\boldsymbol{\alpha} \in K^d$ is a vector such that $\alpha_i >_K 0_k$
+    \item $L = (\Sigma \cup \{ \epsilon \}, \times_L)$ is a free monoid
+    \item $\boldsymbol{\alpha} \in K^d$ is a vector such that $\alpha_i$
     is the initial weight of the state~$i~\in~Q$
     \item $\mathbf{T} \in K^{d\times d}$ is a matrix such that $T_{ij}$
         is the transition weight from the state $i \in Q$ to the state~$j~\in~Q$
@@ -39,8 +46,42 @@ given by the function $\mu: Q^n \rightarrow K$:
 Similarly, the label sequence of the path $\boldsymbol{\pi}$ is given
 by the function $\sigma: Q^n \rightarrow L$:
 \begin{align}
-    \sigma(\boldsymbol{\pi}) = \prod_{n=1}^N \lambda_{\pi_n}.
+    \sigma(\boldsymbol{\pi}) = \prod_{i=1}^n \lambda_{\pi_i}.
 \end{align}
+
+An example of FSM with its graphical and matrix representation is
+shown in Figure \ref{fsm:fig:example1}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.6]{images/fsm1.pdf}
+    \captionsetup{singlelinecheck=off}
+    \caption[example/fsm1]{example of FSM in the log-semiring where:
+    \begin{align}
+        Q &= \{1, 2, 3\} & \Sigma &= \{a, \dots, z\} \\
+        \boldsymbol{\alpha} &= \begin{bmatrix}
+            0 \\
+            -\infty \\
+            -\infty
+        \end{bmatrix} &
+        \boldsymbol{\omega} &= \begin{bmatrix}
+            -\infty \\
+            -\infty \\
+            4
+        \end{bmatrix} \\
+        \mathbf{T} &= \begin{bmatrix}
+            -\infty & 3 & -\infty \\
+            -\infty & -\infty & -6 \\
+            2 & -\infty & -\infty
+        \end{bmatrix} &
+        \boldsymbol{\lambda} &= \begin{bmatrix}
+            a \\
+            b \\
+            c
+        \end{bmatrix}
+    \end{align}}
+    \label{fsm:fig:example1}
+\end{figure}
 
 \paragraph{input sequence:} We define an input sequence $\mathbf{s}$ to
 a FSM as a sequence of labels:
@@ -59,15 +100,17 @@ We say that an input sequence is \emph{accepted by $\mathcal{M}$} if
 $\nu(\mathbf{s}) > 0$. We denote $S$ the set of accepted input sequence
 of a FSM, i.e. $S = \{\mathbf{s} : \nu(\mathbf{s}) > 0 \}$.
 
-\paragraph{total sum:} We define the total sum of a FSM $\eta$ as the
-sum of all the weights of its accepted input sequence:
+\subsection{Total sum}
+
+We define the total weight sum of a FSM $\zeta$ as the sum of all the
+weights of its accepted input sequences:
 \begin{align}
     \zeta = \sum_{\mathbf{s} \in S} \nu(\mathbf{s}).
 \end{align}
-The total sum can be estimated efficiently via dynamic programming. Let
-be $\zeta_n$ the \emph{partial total sum} of a FSM $\mathcal{M}$
-defined as the sum of all the weights of accepted input sequence of
-size smaller of equal to $n$:
+The total weight sum can be estimated efficiently via dynamic
+programming. Let be $\zeta_n$ the \emph{partial total sum} of a FSM
+$\mathcal{M}$ defined as the sum of all the weights of accepted input
+sequence of size smaller of equal to $n$:
 \begin{align}
     \zeta_n = \sum_{\mathbf{s} \in
         \{ \mathbf{s} : \; | \mathbf{s} | \le n, \; \mathbf{s} \in S \}}

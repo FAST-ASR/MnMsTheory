@@ -12,9 +12,9 @@ associated to this FSM are denoted $\mu_i(\cdot)$, $\sigma_i(\cdot)$ and
 $\nu_i(\cdot)$ respectively. The set of input sequences accepted by
 $\mathcal{M}_i$ is $S_i = \{\mathbf{s}: \nu_i(\mathbf{s}) > 0 \}$. In
 the following, for binary operator over 2 FSMs, we assume tacitly that
-both FSMs have the same set of symbols, i.e. $\Sigma = \Sigma_1 = \Sigma_2$,
-the same weight semiring, i.e. $K = K_1 = K_2$, and the same label semiring,
-i.e. $L = L_1 = L_2$.
+both FSMs have the same set of symbols, i.e. $\Sigma = \Sigma_1 = \Sigma_2$
+and the same weight semiring, i.e. $K = K_1 = K_2$, and the same
+label free monoid, i.e. $L = L_1 = L_2$.
 
 \subsection{Renormalization}
 
@@ -111,22 +111,16 @@ following construction:
         \boldsymbol{\lambda}_2 &= \boldsymbol{\lambda}_1 & &
 \end{align}
 
-\subsection{Hierarchical FSM - Composition}
-
-In many applications we would like to process signals with different levels of
-structure. A typical example is speech where we have phonotactic
-structure, syllabic structure and lexical structure. To handle such
-phenomenon, it is necessary to build \emph{hierarchical} FSMs, i.e.
-FSMs where each state is itself associated to another FSM. To build a
-such FSM we need to \emph{compose} a high-level FSM with a set of
-sub-level FSMs.
+\subsection{Composition}
 
 Let's consider a FSM $\mathcal{M}_1$ with $d$ states. We would like to
-compose $\mathcal{M}_1$ with a sequence of $d$ FSMs $\mathcal{M}^{1:d} = (\mathcal{M}^1, \dots, \mathcal{M}^d)$
-such that the $i$th state of $\mathcal{M}_1$ is associated with the
-FSM $\mathcal{M}^i$. The composition of $\mathcal{M}_1$ and $\mathcal{M}^{1:d}$,
-denoted $\mathcal{M}_1 \circ \mathcal{M}^{1:d}$, yields a FSM $\mathcal{M}_2$
-which can be obtained with the following construction:
+compose $\mathcal{M}_1$ with a sequence of $d$ FSMs
+$\mathcal{M}^{1:d} = (\mathcal{M}^1, \dots, \mathcal{M}^d)$
+That is to say that the $i$th state of $\mathcal{M}_1$ is replaced
+with the FSM $\mathcal{M}^i$. The composition of $\mathcal{M}_1$ and
+$\mathcal{M}^{1:d}$, denoted $\mathcal{M}_1 \circ \mathcal{M}^{1:d}$,
+yields a FSM $\mathcal{M}_2$ which can be obtained with the following
+construction:
 \begin{align}
     Q_2 &= \{1, \dots, \sum_{i=1}^d |Q^i| \} \\
     \boldsymbol{\alpha}_2 &=
@@ -139,44 +133,48 @@ which can be obtained with the following construction:
         \mathbf{T}^1 & & \\
         & \ddots & \\
         & & \mathbf{T}^d
-    \end{bmatrix} +
-        \boldsymbol{\Omega} \mathbf{T}_1 \boldsymbol{\mathcal{A}}^\top \\
-    \boldsymbol{\omega}_2 &=
+    \end{bmatrix} + (\mathbf{M}_K \mathbf{T}_1 \mathbf{M}_K^\top) \odot
+        \Bigg( \begin{bmatrix}
+            \boldsymbol{\omega}_1 \\
+            \vdots \\
+            \boldsymbol{\omega}_d
+        \end{bmatrix} \begin{bmatrix}
+            \boldsymbol{\alpha}_1\\
+            \vdots \\
+            \boldsymbol{\alpha}_1
+        \end{bmatrix}^\top \Bigg)  \\
+    \boldsymbol{\omega}_2 &= \
         \begin{bmatrix}
             \omega_{1,1} \boldsymbol{\omega}^1 \\
             \vdots \\
             \omega_{1,d} \boldsymbol{\omega}^d
         \end{bmatrix} \\
-    \boldsymbol{\lambda}_2 &= \begin{bmatrix}
-        \lambda_{1,1} \boldsymbol{\lambda}^1 \\
+    \boldsymbol{\lambda}_2 &= \mathbf{M}_L^\top \begin{bmatrix}
+        \lambda_{1,1} \circ \boldsymbol{\lambda}^1 \\
         \vdots \\
-        \lambda_{1,d} \boldsymbol{\lambda}^d \\
+        \lambda_{1,d} \circ \boldsymbol{\lambda}^d \\
     \end{bmatrix},
 \end{align}
-where, $N(\cdot)$ is a function returning the non-zero elements of a matrix
-as a vector (ordered column-wise) and $\boldsymbol{\mathcal{A}}$,
-$\boldsymbol{\Omega}$ and $\boldsymbol{\Lambda}$ are block-diagonal
-matrices defined as
+$\mathbf{M}_K$ is a matrix whose elements belong to the semiring $K$
+and it is defined as:
 \begin{align}
-    \boldsymbol{\mathcal{A}} &= \begin{bmatrix}
-        \boldsymbol{\alpha}^1 & & \\
-            & \ddots & \\
-            & & \boldsymbol{\alpha}^d
-        \end{bmatrix}, &
-    \boldsymbol{\Omega} &= \begin{bmatrix}
-        \boldsymbol{\omega}^1 & & \\
-            & \ddots & \\
-            & & \boldsymbol{\omega}^d
-        \end{bmatrix}.
+    \mathbf{M}_K = \begin{bmatrix}
+        \mathbf{1}_{|Q_1|} & & & \\
+        & \mathbf{1}_{|Q_2|} & & \\
+        & & \ddots & \\
+        & & & \mathbf{1}_{|Q_d|}
+    \end{bmatrix}.
 \end{align}
+where $\mathbf{1}_{|Q_i|}$ is a vector of $1$ of size $|Q_i|$. $\mathbf{M}_L$
+is defined identically but has elements in the semiring $L$.
 
 \subsection{Weight propagation}
 
-Propagate the weight towards through the FSM. This operation is needed
+Propagate the weights through the FSM. This operation is needed
 before determinization to guarantee that the output FSM will be
 equivalent to the input one.
 
 \subsection{Determinization}
 
-Standard algorithm of powerset construction.
+Standard powerset construction algorithm.
 

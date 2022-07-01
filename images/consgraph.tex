@@ -1,0 +1,55 @@
+\documentclass[class=article, crop=true]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+%\usepackage[x11names, svgnames, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+%\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\node (s) at (1.8bp,89.82bp) [draw,circle, fill] {};
+  \node (a) at (71.6bp,155.82bp) [draw,ellipse] {a};
+  \node (b) at (166.6bp,104.82bp) [draw,ellipse] {b};
+  \node (c) at (71.6bp,50.82bp) [draw,ellipse] {c};
+  \draw [->] (s) ..controls (3.5403bp,97.755bp) and (6.936bp,124.62bp)  .. (21.6bp,138.82bp) .. controls (25.603bp,142.69bp) and (30.533bp,145.69bp)  .. (a);
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (24.1bp,149.32bp) node {$\delta_a$};
+  \draw [->] (s) ..controls (13.266bp,90.784bp) and (84.645bp,97.36bp)  .. (b);
+  \draw (71.6bp,105.32bp) node {$\delta_b$};
+  \draw [->] (s) ..controls (6.4929bp,86.737bp) and (14.41bp,80.287bp)  .. (21.6bp,75.82bp) .. controls (27.243bp,72.314bp) and (33.437bp,68.867bp)  .. (c);
+  \draw (24.1bp,83.32bp) node {$\delta_c$};
+  \draw [->] (a) ..controls (42.731bp,135.42bp) and (30.943bp,125.73bp)  .. (21.6bp,115.82bp) .. controls (16.957bp,110.9bp) and (12.486bp,104.79bp)  .. (s);
+  \draw (24.1bp,127.32bp) node {$\nu_a$};
+  \draw [->] (a) ..controls (105.97bp,137.52bp) and (122.49bp,128.46bp)  .. (b);
+  \draw (119.1bp,137.32bp) node {$\gamma$};
+  \draw [->] (b) ..controls (150.09bp,64.533bp) and (130.32bp,25.361bp)  .. (98.6bp,8.8195bp) .. controls (67.042bp,-7.6391bp) and (40.447bp,0.62742bp)  .. (21.6bp,30.82bp) .. controls (12.236bp,45.821bp) and (7.1432bp,65.905bp)  .. (s);
+  \draw (71.6bp,16.32bp) node {$\nu_b$};
+  \draw [->] (c) ..controls (41.552bp,34.23bp) and (30.245bp,31.752bp)  .. (21.6bp,37.82bp) .. controls (8.6741bp,46.891bp) and (4.5974bp,65.775bp)  .. (s);
+  \draw (24.1bp,45.32bp) node {$\nu_c$};
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

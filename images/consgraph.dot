@@ -1,0 +1,12 @@
+digraph G {
+    rankdir=LR;
+    s [shape="point", label=""];
+    a -> b [label=" ", texlbl="$\gamma$"];
+    a -> s [label=" ", texlbl="$\nu_a$"];
+    b -> s [label=" ", texlbl="$\nu_b$"];
+    c -> s [label=" ", texlbl="$\nu_c$"];
+    s -> a [label=" ", texlbl="$\delta_a$"];
+    s -> b [label=" ", texlbl="$\delta_b$"];
+    s -> c [label=" ", texlbl="$\delta_c$"];
+}
+

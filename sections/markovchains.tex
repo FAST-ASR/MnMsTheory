@@ -62,14 +62,49 @@ advantages, notably:
         implemented and optimized.
 \end{itemize}
 
-%\begin{figure}[t]
-%    \centering
-%    \import{./}{figures/graph}
-%    \caption{Graphical representation of a Markov chain. $t_{ij}$ is the
-%     element of $\Matrix{T}$ at the $i$th row and $j$th column.}
-%    \label{markovchains:fig:graph}
-%\end{figure}
-%
+\subsection{Inference algorithms}
+
+The use Markov chains in machine learning problem usually necessitate
+to solve two inference problem: (i) state-marginalization and (ii)
+calculate the probability of the most likely sequence. We show how this
+two algorithms can be calculated easily using the FSM formalism.
+
+\subsubsection{State marginalization}
+We aim to calculate the following
+quantity:
+\begin{align}
+    p(z_i) &= \sum_{z_1, \dots, z_{n}} p(z_1, \dots, z_{i-1}, z_i, \dots, z_n) \\
+    &= \sum_{z_{i-1}} p(z_i | z_{i-1}) p(z_{i-1}).
+    \label{eq:markovchains:statemarginal}
+\end{align}
+Equation \ref{eq:markovchains:statemarginal} leads to a recursive
+function which is trivially evaluated with the total sum algorithm:
+\begin{align}
+    \mathbf{v}_i &= \begin{bmatrix}
+        p(z_i = 1) \\
+        \vdots \\
+        p(z_i = d)
+    \end{bmatrix} = \mathbf{T}^\top \mathbf{v}_{i-1}
+    \label{eq:markovchains:totalsum_statemarginal}
+\end{align}
+with initial condition $\mathbf{v}_1 = \boldsymbol{\alpha}$.
+
+\paragraph{} In practice, \eqref{eq:markovchains:totalsum_statemarginal} is not
+numerically stable as it multiplies many numbers smaller than ones
+leading to numerical underflow  of floating point arithmetic. However,
+this issue is easily solved by taking the logarithm of all values of
+$\mathbf{T}$  and $\mathbf{v}_i$ and using the log-semiring.
+
+\paragraph{} This computation is at the heart of the forward-backward algorithm
+used to train Hidden Markov Models and to compute the gradient of
+several sequence-discriminative objective function.
+
+\subsubsection{Best path probability}
+
+We aim to find:
+\begin{align}
+    \max_{z_1, \dots, z_{n}} p(\mathbf{z}) = \max_{z_{i+1}, \dots, z_n} p(z_{i+1}, \dots, z_n)
+\end{align}
 
 Whereas the graph conveniently represents the possible trajectories in
 the state-space, the transition matrix $\Matrix{T}$ allows to express

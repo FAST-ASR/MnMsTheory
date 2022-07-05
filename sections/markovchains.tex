@@ -90,7 +90,7 @@ function which is trivially evaluated with the total sum algorithm:
 with initial condition $\mathbf{v}_1 = \boldsymbol{\alpha}$.
 
 \paragraph{} In practice, \eqref{eq:markovchains:totalsum_statemarginal} is not
-numerically stable as it multiplies many numbers smaller than ones
+numerically stable as it multiplies many numbers smaller than one
 leading to numerical underflow  of floating point arithmetic. However,
 this issue is easily solved by taking the logarithm of all values of
 $\mathbf{T}$  and $\mathbf{v}_i$ and using the log-semiring.
@@ -101,35 +101,30 @@ several sequence-discriminative objective function.
 
 \subsubsection{Best path probability}
 
-We aim to find:
+We aim to find the probability of the most likely path:
 \begin{align}
-    \max_{z_1, \dots, z_{n}} p(\mathbf{z}) = \max_{z_{i+1}, \dots, z_n} p(z_{i+1}, \dots, z_n)
+    \max_{z_1, \dots, z_{n}} p(\mathbf{z})
 \end{align}
 
-Whereas the graph conveniently represents the possible trajectories in
-the state-space, the transition matrix $\Matrix{T}$ allows to express
-state marginalization as a matrix-vector multiplication. For instance:
+Which can be obtained with the the total sum aglorithm:
 \begin{align}
-    p(z_n) &= \sum_{i \in \{a, b, c\} } p(z_{n-1}=i, z_n) \\
-    &= \sum_{i \in \{a, b, c\}} p(z_n | z_{n-1} = i) p(z_{n-1} = i) \\
-    \Matrix{v}_n &= \Matrix{T} \Matrix{v}_{n-1} \label{markovchains:eq:smarginal}
-\end{align},
-where:
-\begin{align}
-    \Matrix{v}_n &= \begin{bmatrix}
-        p(z_n = a) \\
-        p(z_n = b) \\
-        p(z_n = c)
-\end{bmatrix}.
+    \mathbf{v}_{T,1} &= \begin{bmatrix}
+        p(z_1 = 1) \\
+        \vdots \\
+        p(z_1 = d)
+    \end{bmatrix} \\
+    \mathbf{v}_{T,i} &= \mathbf{T}_T^\top \mathbf{v}_{T,i-1} \\
+    \max_{z_1, \dots, z_{n}} p(\mathbf{z}) &= \boldsymbol{\omega}_{T}^{\top}
+        \mathbf{v}_{T,n},
+    \label{eq:markovchains:totalsum_statemarginal}
 \end{align}
+where $\mathbf{T}_T$, $\boldsymbol{\omega}_T$ and $\mathbf{v}_{T,i}$ are
+defined as usual with elements in the tropical semiring.
 
-Equation \eqref{markovchains:eq:smarginal} is the ``core'' operation of many
-Markov chains related algorithm such as forward-backward (for training models)
-and viterbi (for decoding speech). For Markov chains that have a large number
-of states, this operation is problematic as its complexity is quadratic in the
-number of states: $\mathcal{O}(2D^2)$ where $D$ is the number of states.
-The rest of the document describes how to exploit the structure of the Markov
-chains to decrease the complexity of this operation.
+In addition to the probability of the most likely path, it is often
+of interest to get the most likely sequence of state. This is achieved
+by calculating the unique subgradient of
+$\boldsymbol{\omega}^\top_T \mathbf{v}_{T,n}$.
 
 \subsection{Compact graphical form}
 In many application, the transition probabilities have some structure

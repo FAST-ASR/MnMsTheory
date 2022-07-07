@@ -1,0 +1,24 @@
+\section{Sparse Low-Rank Matrices}
+
+We denote the \emph{sparse-low rank} factorization of a $d \times d$
+matrix $\mathbf{M}$ the decomposition
+\begin{align}
+    \mathbf{M} &= \mathbf{S} + \sum_{i=1}^k \mathbf{u}_i \mathbf{v}_i^\top,
+\end{align}
+where $\mathbf{S}$ is a sparse matrix. When $k$ is low, this
+factorization is very convenient to optimize matrix multiplication. In
+the following, we show that the factorization is preserved by the matrix
+multiplication operation, i.e. multiplying $\mathbf{M}$ with another
+matrix will give a sparse-low rank factorization of the resulting matrix.
+
+\paragraph{} Let be $\mathbf{A}, \mathbf{B} \in \mathbb{R}^{d\times d}$,
+we have:
+\begin{align}
+    \mathbf{M} \mathbf{A} &= \mathbf{S} \mathbf{A}
+        + \sum_{i=1}^k \mathbf{u}_i (\mathbf{A}^\top \mathbf{v}_i)^\top \\
+    \mathbf{A} \mathbf{M} &= \mathbf{A} \mathbf{S}
+        + \sum_{i=1}^k (\mathbf{A} \mathbf{u}_i) \mathbf{v}_i^\top \\
+    \mathbf{A} \mathbf{M} \mathbf{B} &= \mathbf{A} \mathbf{S} \mathbf{B}
+        + \sum_{i=1}^k (\mathbf{A} \mathbf{u}_i) (\mathbf{B}^\top \mathbf{v}_i)^\top
+\end{align}
+
